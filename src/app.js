@@ -12,6 +12,22 @@ app.use(express.json())
 
 // Write POST endpoint for creating new product here
 // Endpoint /api/v1/products
+app.post('/api/v1/products', (req, res) => {
+    const {name, price, quantity}=req.body;
+    const id=products.length+1;
+    const newProduct={id, name, price, quantity};
+    products.push(newProduct);
+    fs.writeFileSync(`${__dirname}/data/product.json`,JSON.stringify(products));
+    res.status(201).send(
+        {
+            status: "Success",
+            message: "Product added successfully",
+            data: {
+                newProduct: newProduct
+            }
+        }
+    )
+})
 
 // GET endpoint for sending the details of users
 app.get('/api/v1/products', (req,res) => {
